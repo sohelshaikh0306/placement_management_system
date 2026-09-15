@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card fade-in">
+        <div class="auth-header">
+            <h1>🎓 Placement Management System</h1>
+            <p>Your gateway to career opportunities</p>
+        </div>
+        
+        <div class="text-center">
+            <a href="{{ url_for('login') }}" class="btn btn-primary mb-2">Login</a>
+            <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-3">Job Openings</h1>
+
+{% if current_user.role == 'admin' %}
+<div class="card mb-3">
+    <div class="card-header">
+        <h3 class="card-title">Post New Job</h3>
+    </div>
+    <form method="POST" action="{{ url_for('add_job') }}">
+        <div class="grid grid-2">
+            <div class="form-group">
+                <label class="form-label">Company</label>
+                <select name="company_id" class="form-control" required>
+                    {% for company in companies %}
+                    <option value="{{ company.id }}">{{ company.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Job Title</label>
+                <input type="text" name="title" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Job Type</label>
+                <select name="job_type" class="form-control">
+                    <option value="full-time">Full Time</option>
+                    <option value="part-time">Part Time</option>
+                    <option value="internship">Internship</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Location</label>
+                <input type="text" name="location" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Salary Range</label>
+                <input type="text" name="salary_range" class="form-control" placeholder="e.g., 5-7 LPA">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Positions</label>
+                <input type="number" name="positions" class="form-control" value="1" min="1">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Application Deadline</label>
+                <input type="date" name="deadline" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" rows="4"></textarea>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Eligibility Criteria</label>
+            <textarea name="eligibility_criteria" class="form-control" rows="2"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Post Job</button>
+    </form>
+</div>
+{% endif %}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Available Positions</h3>
+    </div>
+    <div class="grid grid-2">
+        {% for job in jobs %}
+        <div class="job-card">
+            <div class="job-title">{{ job.title }}</div>
+            <div class="job-company">{{ job.company_name }}</div>
+            <div class="job-meta">
+                <span>📍 {{ job.location }}</span>
+                <span>💰 {{ job.salary_range }}</span>
+                <span>📅 {{ job.deadline }}</span>
+            </div>
+            <p>{{ job.description[:150] }}...</p>
+            <a href="{{ url_for('job_detail', job_id=job.id) }}" class="btn btn-primary">View Details</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

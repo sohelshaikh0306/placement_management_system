@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-3">Companies</h1>
+
+{% if current_user.role == 'admin' %}
+<div class="card mb-3">
+    <div class="card-header">
+        <h3 class="card-title">Add New Company</h3>
+    </div>
+    <form method="POST" action="{{ url_for('add_company') }}">
+        <div class="grid grid-2">
+            <div class="form-group">
+                <label class="form-label">Company Name</label>
+                <input type="text" name="name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Industry</label>
+                <input type="text" name="industry" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Website</label>
+                <input type="url" name="website" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Location</label>
+                <input type="text" name="location" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Contact Email</label>
+                <input type="email" name="contact_email" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Contact Phone</label>
+                <input type="tel" name="contact_phone" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Company</button>
+    </form>
+</div>
+{% endif %}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">All Companies</h3>
+    </div>
+    <div class="grid grid-3">
+        {% for company in companies %}
+        <div class="job-card">
+            <div class="job-title">{{ company.name }}</div>
+            <div class="job-company">{{ company.industry }}</div>
+            <div class="job-meta">
+                <span>📍 {{ company.location }}</span>
+            </div>
+            <p>{{ company.description[:100] }}...</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

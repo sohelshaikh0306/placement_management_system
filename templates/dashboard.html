@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-3">Dashboard</h1>
+
+{% if current_user.role == 'student' %}
+<!-- Student Dashboard -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">📋</div>
+        <div class="stat-value">{{ my_applications|length }}</div>
+        <div class="stat-label">My Applications</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">💼</div>
+        <div class="stat-value">{{ recent_jobs|length }}</div>
+        <div class="stat-label">Available Jobs</div>
+    </div>
+</div>
+
+<div class="grid grid-2">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Recent Job Openings</h3>
+        </div>
+        {% for job in recent_jobs %}
+        <div class="job-card mb-2">
+            <div class="job-title">{{ job.title }}</div>
+            <div class="job-company">{{ job.company_name }}</div>
+            <div class="job-meta">
+                <span>📍 {{ job.location }}</span>
+                <span>💰 {{ job.salary_range }}</span>
+            </div>
+            <a href="{{ url_for('job_detail', job_id=job.id) }}" class="btn btn-primary">View Details</a>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">My Applications</h3>
+        </div>
+        {% for app in my_applications %}
+        <div class="job-card mb-2">
+            <div class="job-title">{{ app.title }}</div>
+            <div class="job-company">{{ app.company_name }}</div>
+            <span class="badge badge-{{ app.status }}">{{ app.status|title }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% else %}
+<!-- Admin Dashboard -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-value">{{ total_students }}</div>
+        <div class="stat-label">Total Students</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">🏢</div>
+        <div class="stat-value">{{ total_companies }}</div>
+        <div class="stat-label">Companies</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">💼</div>
+        <div class="stat-value">{{ total_jobs }}</div>
+        <div class="stat-label">Open Jobs</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">📝</div>
+        <div class="stat-value">{{ total_applications }}</div>
+        <div class="stat-label">Applications</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">🎉</div>
+        <div class="stat-value">{{ total_placements }}</div>
+        <div class="stat-label">Placements</div>
+    </div>
+</div>
+
+<div class="grid grid-2">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Quick Actions</h3>
+        </div>
+        <a href="{{ url_for('companies') }}" class="btn btn-primary mb-2">Manage Companies</a>
+        <a href="{{ url_for('jobs') }}" class="btn btn-success mb-2">Post New Job</a>
+        <a href="{{ url_for('applications') }}" class="btn btn-warning">View Applications</a>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Recent Activity</h3>
+        </div>
+        <p>System is running smoothly. All services are operational.</p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

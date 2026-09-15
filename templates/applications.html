@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-3">
+    {% if current_user.role == 'admin' %}
+    All Applications
+    {% else %}
+    My Applications
+    {% endif %}
+</h1>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Application List</h3>
+    </div>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                {% if current_user.role == 'admin' %}
+                <th>Student</th>
+                <th>Email</th>
+                {% endif %}
+                <th>Job Title</th>
+                <th>Company</th>
+                <th>Status</th>
+                <th>Applied Date</th>
+                {% if current_user.role == 'admin' %}
+                <th>Actions</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for app in applications %}
+            <tr>
+                {% if current_user.role == 'admin' %}
+                <td>{{ app.full_name }}</td>
+                <td>{{ app.email }}</td>
+                {% endif %}
+                <td>{{ app.title }}</td>
+                <td>{{ app.company_name }}</td>
+                <td>
+                    <span class="badge badge-{{ app.status }}">
+                        {{ app.status|title }}
+                    </span>
+                </td>
+                <td>{{ app.applied_at.strftime('%Y-%m-%d') }}</td>
+                {% if current_user.role == 'admin' %}
+                <td>
+                    <form method="POST" action="{{ url_for('update_application', app_id=app.id) }}" style="display: inline;">
+                        <select name="status" onchange="this.form.submit()">
+                            <option value="applied" {% if app.status == 'applied' %}selected{% endif %}>Applied</option>
+                            <option value="shortlisted" {% if app.status == 'shortlisted' %}selected{% endif %}>Shortlisted</option>
+                            <option value="interview" {% if app.status == 'interview' %}selected{% endif %}>Interview</option>
+                            <option value="selected" {% if app.status == 'selected' %}selected{% endif %}>Selected</option>
+                            <option value="rejected" {% if app.status == 'rejected' %}selected{% endif %}>Rejected</option>
+                        </select>
+                    </form>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

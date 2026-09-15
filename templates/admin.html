@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-3">Admin Dashboard</h1>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-value">{{ total_students }}</div>
+        <div class="stat-label">Total Students</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">🏢</div>
+        <div class="stat-value">{{ total_companies }}</div>
+        <div class="stat-label">Companies</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">💼</div>
+        <div class="stat-value">{{ total_jobs }}</div>
+        <div class="stat-label">Open Jobs</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">📝</div>
+        <div class="stat-value">{{ total_applications }}</div>
+        <div class="stat-label">Applications</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">🎉</div>
+        <div class="stat-value">{{ total_placements }}</div>
+        <div class="stat-label">Placements</div>
+    </div>
+</div>
+
+<div class="grid grid-2">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Quick Actions</h3>
+        </div>
+        <a href="{{ url_for('companies') }}" class="btn btn-primary mb-2">Manage Companies</a>
+        <a href="{{ url_for('jobs') }}" class="btn btn-success mb-2">Post New Job</a>
+        <a href="{{ url_for('applications') }}" class="btn btn-warning">View Applications</a>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Recent Activity</h3>
+        </div>
+        <p>System is running smoothly. All services are operational.</p>
+    </div>
+</div>
+{% endblock %}
